@@ -3,7 +3,7 @@ import './App.css';
 import { API } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
-import { createNote as createNoteMutation, deleteNote as deleteNoteMutation, updateNote as updateNoteMutation } from './graphql/mutations';
+import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import {  Storage } from 'aws-amplify';
 
 const initialFormState = { name: '', description: '' }
@@ -46,15 +46,6 @@ function App() {
     setNotes([ ...notes, formData ]);
     setFormData(initialFormState);
   }
-  async function updateNote() {
-    await API.graphql({ query: updateNoteMutation, variables: { input: {name:formData.name,description:formData.description } } });
-    //if (formData.image) {
-    //  const image = await Storage.put(formData.image);
-     // formData.image = image;
-    //}
-    setNotes([ ...notes, formData ]);
-    setFormData(initialFormState);
-  }
 
   async function deleteNote({ id }) {
     const newNotesArray = notes.filter(note => note.id !== id);
@@ -65,43 +56,31 @@ function App() {
   return (
     <div className="App">
       <h1>My Notes App</h1>
-     <div>
+      <input
+        type="file"
+        onChange={onChange}
+      />
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Note name"
         value={formData.name}
       />
-      </div>
-      <div>
       <input
         onChange={e => setFormData({ ...formData, 'description': e.target.value})}
         placeholder="Note description"
         value={formData.description}
       />
-      </div>
-      <div>
-       <input
-        type="file"
-        onChange={onChange}
-      />
-      </div>
-      <button className="btn-btn-primary" onClick={createNote}>Create Note</button>
+      <button onClick={createNote}>Create Note</button>
       <div style={{marginBottom: 30}}>
       {
   notes.map(note => (
-    <div class="card">
     <div key={note.id || note.name}>
-      <div class="img">
-    {
-        note.image && <img src={note.image} style={{width: 400}} />
-      }
-      </div>
       <h2>{note.name}</h2>
       <p>{note.description}</p>
-      <button  onClick={() => deleteNote(note)} className="btn-btn-primary">Delete note</button>
-      <button  onClick={()=>updateNote(note)} className="btn-btn-primary">Update note</button>
-      
-    </div>
+      <button onClick={() => deleteNote(note)}>Delete note</button>
+      {
+        note.image && <img src={note.image} style={{width: 400}} />
+      }
     </div>
   ))
 }
