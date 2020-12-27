@@ -6,7 +6,7 @@ import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import {  Storage } from 'aws-amplify';
 
-const initialFormState = { name: '', description: '' }
+const initialFormState = { name: '', description: '', image:'' }
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -56,31 +56,44 @@ function App() {
   return (
     <div className="App">
       <h1>My Notes App</h1>
-      <input
-        type="file"
-        onChange={onChange}
-      />
-      <input
+      <div>
+      <input className="form-control"
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Note name"
         value={formData.name}
       />
-      <input
+     </div>
+      <div>
+      <input className="form-control"
         onChange={e => setFormData({ ...formData, 'description': e.target.value})}
         placeholder="Note description"
         value={formData.description}
       />
-      <button onClick={createNote}>Create Note</button>
+     </div>
+      <div>
+      <input className="form-control"
+        type="file"
+        onChange={onChange}
+      />
+      </div>
+      <button onClick={createNote} className="btnPrimary">Create Note</button>
       <div style={{marginBottom: 30}}>
       {
   notes.map(note => (
     <div key={note.id || note.name}>
+      <div className="commentWrapper">
+        <div className="commentText">
       <h2>{note.name}</h2>
       <p>{note.description}</p>
-      <button onClick={() => deleteNote(note)}>Delete note</button>
+     
       {
         note.image && <img src={note.image} style={{width: 400}} />
       }
+       <div className="commentBtns">
+      <button onClick={() => deleteNote(note)} className="btnDanger">Delete note</button>
+      <button onClick={() => deleteNote(note)} className="btnSuccess">Update note</button></div>
+      </div>
+      </div>
     </div>
   ))
 }

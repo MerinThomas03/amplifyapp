@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.form-control{
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+ 
+  
+  
+}
+.btnPrimary {
+  background: blue;
+}
+.btnDanger {
+  background:red;
+}
+
+.commentWrapper {
+  @media screen and (max-width: 414px) {
+    height: 200px;
+    box-sizing: border-box;
+    display: block;
+    
+    
+  }
+  
+}
+
