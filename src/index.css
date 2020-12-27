@@ -26,6 +26,9 @@ code {
 .btnDanger {
   background:red;
 }
+.btnSuccess{
+  background:green;
+}
 
 .commentWrapper {
   @media screen and (max-width: 414px) {
