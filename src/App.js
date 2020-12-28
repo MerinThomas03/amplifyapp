@@ -3,7 +3,7 @@ import './App.css';
 import { API } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
-import { createNote as createNoteMutation, deleteNote as deleteNoteMutation,  updateNote as updateNoteMutation  } from './graphql/mutations';
+import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import {  Storage } from 'aws-amplify';
 
 const initialFormState = { name: '', description: '' }
@@ -52,12 +52,7 @@ function App() {
     setNotes(newNotesArray);
     await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
   }
-  async function updateNote({ id }) {
-    const formData = notes.filter(note => note.id !== id);
-    setNotes([ ...notes, formData ]);
-    await API.graphql({ query: updateNoteMutation, variables: { input: { id,name:"hello",description:"hai" } }});
-    setNotes([  formData ]);
-  }
+  
 
 
   return (
@@ -98,7 +93,7 @@ function App() {
       }
      <div className="commentBtns">
       <button onClick={() => deleteNote(note)} className="btnDanger">Delete note</button>
-      <button onClick={() => updateNote(note)} className="btnSuccess">Update note</button></div>
+      </div>
       </div>
       </div>
     </div>
